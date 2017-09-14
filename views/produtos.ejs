@@ -1,7 +1,6 @@
 <head>
-
-	<%= titulo %>
-
+	<p style="font-size: 40px"> <%= titulo %> </p>
+	
 </head>
 
 <style>
@@ -13,13 +12,12 @@
 	}
 </style>
 
-<form method="post" action="/tarefa/adicionar">
-	<label>Adicionar Produto</label>
-	<input type="text" name="tarefa" placeholder="Adicionar produto">
+<form method="post" action="/acao/adicionar">
+	<label>Descrição do Produto</label><br>
+	<input type="text" name="produto" placeholder="Produto">
+	<br><br>
 	<input type="submit" value="Adicionar">
 </form>
-
-
 
 <form method="post" action="/tarefa/remover">
 	<ul class="lista-tarefas">
@@ -36,3 +34,27 @@
 	</ul>
 	<input type="submit" value="Remover">
 </form>
+
+<div class="well">
+	<% if ( contato == null ){ %>
+		<h3>Contato Não Registrado</h3>
+	<% } else {%>
+		<h3>Contato Vendedor</h3>
+		Nome: <%= contato.nome %><br> 
+		Telefone: <%= contato.telefone %><br>
+	<%} %>
+</div>
+
+<div class="well">
+	<h3>Editar Contato Vendedor</h3>
+	<form method="post" action="/contato/editar">
+		<label>Nome</label><br>
+		<input type="text" name="nome" placeholder="Nome">
+		<br><br>
+		<label>Telefone</label><br>
+		<input type="text" name="telefone" placeholder="Telefone">
+		<br><br>
+		<input type="submit" value="Editar">
+	</form>
+</div>
+	

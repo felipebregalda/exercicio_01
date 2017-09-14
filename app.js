@@ -26,24 +26,46 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
     var titulo = 'OLX Data Science';
 
-    clienteRedis.lrange('produtos', 0, -1, function (err, reply) {
-        res.render('produtos', {
-            titulo: titulo,
-            produtos: reply
-        });
+    clienteRedis.lrange('produtos', 0, -1, function (err, produtos) {
+		clienteRedis.hgetall('contato', function(err, contato){
+			res.render('produtos', {
+				titulo: titulo,
+				produtos: produtos,
+				contato: contato
+			});
+		});
     });
 });
 
-app.post('/tarefa/adicionar', function(req, res){
-	var tarefa = req.body.tarefa;
+app.post('/acao/adicionar', function(req, res){
+	var produto = req.body.produto;
 
-	clienteRedis.rpush('produtos', tarefa, function(err, reply){
+    clienteRedis.rpush('produtos', produto, function(err, reply){
 		if(err){
 			console.log(err);
 		}
 		console.log('Produto Adicionado ...');
-		res.redirect('/');
-	});
+		
+    });
+    var contato = {};
+    
+        contato.nome 		= req.body.nome;
+        contato.produto 	= req.body.produto;
+        contato.telefone 	= req.body.telefone;
+    
+        clienteRedis.hmset('contato', 
+                 ['nome', contato.nome,
+                  'produto', contato.produto, 
+                  'telefone', contato.telefone], 
+                  function(err, reply){
+            if(err){
+                console.log(err);
+            }
+            console.log(reply);
+            res.redirect('/');
+        });
+
+
 });
 
 app.post('/tarefa/remover', function(req, res){
@@ -62,6 +84,27 @@ app.post('/tarefa/remover', function(req, res){
 		res.redirect('/');
 	});
 });
+
+app.post('/contato/editar', function(req, res){
+	var contato = {};
+
+	contato.nome 		= req.body.nome;
+	contato.produto 	= req.body.produto;
+	contato.telefone 	= req.body.telefone;
+
+	clienteRedis.hmset('contato', 
+	         ['nome', contato.nome,
+			  'produto', contato.produto, 
+			  'telefone', contato.telefone], 
+			  function(err, reply){
+		if(err){
+			console.log(err);
+		}
+		console.log(reply);
+		res.redirect('/');
+	});
+});
+
 
 app.listen(3000);
 console.log('Servidor Inicializado na Porta 3000 ...',
