@@ -1,0 +1,32 @@
+<style>
+	.remover:checked + span{
+		color:red;
+	}
+	.lista-tarefas{
+		list-style:none;
+	}
+</style>
+
+<form method="post" action="/tarefa/adicionar">
+	<label>Adicionar Tarefa</label>
+	<input type="text" name="tarefa" placeholder="Adicionar Tarefa">
+	<input type="submit" value="Adicionar">
+</form>
+
+<%= titulo %>
+
+<form method="post" action="/tarefa/remover">
+	<ul class="lista-tarefas">
+	<% tarefas.forEach(function(tarefa){ %>
+		<li>
+			<label>
+                <input type="checkbox" name="tarefas"
+                       class="remover" 
+                       value="<%= tarefa %>">
+                       <span><%= tarefa %></span>
+			</label>
+		</li>
+	<% }) %>
+	</ul>
+	<input type="submit" value="Remover">
+</form>
