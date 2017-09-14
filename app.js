@@ -24,12 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Captura o caminho '/' na URL
 app.get('/', function (req, res) {
-    var titulo = 'Lista de Tarefas';
+    var titulo = 'OLX Data Science';
 
-    clienteRedis.lrange('tarefas', 0, -1, function (err, reply) {
-        res.render('tarefas', {
+    clienteRedis.lrange('produtos', 0, -1, function (err, reply) {
+        res.render('produtos', {
             titulo: titulo,
-            tarefas: reply
+            produtos: reply
         });
     });
 });
@@ -37,22 +37,22 @@ app.get('/', function (req, res) {
 app.post('/tarefa/adicionar', function(req, res){
 	var tarefa = req.body.tarefa;
 
-	clienteRedis.rpush('tarefas', tarefa, function(err, reply){
+	clienteRedis.rpush('produtos', tarefa, function(err, reply){
 		if(err){
 			console.log(err);
 		}
-		console.log('Tarefa Adicionada ...');
+		console.log('Produto Adicionado ...');
 		res.redirect('/');
 	});
 });
 
 app.post('/tarefa/remover', function(req, res){
-	var tarefasParaRemover = req.body.tarefas;
+	var produtosParaRemover = req.body.produtos;
 
-	clienteRedis.lrange('tarefas', 0, -1, function(err, tarefas){
-		for(var posicao = 0; posicao < tarefas.length; posicao++){
-			if(tarefasParaRemover.indexOf(tarefas[posicao]) > -1){
-				clienteRedis.lrem('tarefas',0,tarefas[posicao], function(){
+	clienteRedis.lrange('produtos', 0, -1, function(err, produtos){
+		for(var posicao = 0; posicao < produtos.length; posicao++){
+			if(produtosParaRemover.indexOf(produtos[posicao]) > -1){
+				clienteRedis.lrem('produtos',0,produtos[posicao], function(){
 					if(err){
 						console.log(err);
 					}

@@ -1,3 +1,9 @@
+<head>
+
+	<%= titulo %>
+
+</head>
+
 <style>
 	.remover:checked + span{
 		color:red;
@@ -8,19 +14,19 @@
 </style>
 
 <form method="post" action="/tarefa/adicionar">
-	<label>Adicionar Tarefa</label>
-	<input type="text" name="tarefa" placeholder="Adicionar Tarefa">
+	<label>Adicionar Produto</label>
+	<input type="text" name="tarefa" placeholder="Adicionar produto">
 	<input type="submit" value="Adicionar">
 </form>
 
-<%= titulo %>
+
 
 <form method="post" action="/tarefa/remover">
 	<ul class="lista-tarefas">
-	<% tarefas.forEach(function(tarefa){ %>
+	<% produtos.forEach(function(tarefa){ %>
 		<li>
 			<label>
-                <input type="checkbox" name="tarefas"
+                <input type="checkbox" name="produtos"
                        class="remover" 
                        value="<%= tarefa %>">
                        <span><%= tarefa %></span>
