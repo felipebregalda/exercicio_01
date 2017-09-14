@@ -45,27 +45,8 @@ app.post('/acao/adicionar', function(req, res){
 			console.log(err);
 		}
 		console.log('Produto Adicionado ...');
-		
+		res.redirect('/');
     });
-    var contato = {};
-    
-        contato.nome 		= req.body.nome;
-        contato.produto 	= req.body.produto;
-        contato.telefone 	= req.body.telefone;
-    
-        clienteRedis.hmset('contato', 
-                 ['nome', contato.nome,
-                  'produto', contato.produto, 
-                  'telefone', contato.telefone], 
-                  function(err, reply){
-            if(err){
-                console.log(err);
-            }
-            console.log(reply);
-            res.redirect('/');
-        });
-
-
 });
 
 app.post('/tarefa/remover', function(req, res){
